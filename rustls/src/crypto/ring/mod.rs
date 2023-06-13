@@ -10,6 +10,8 @@ use ring::rand::{SecureRandom, SystemRandom};
 
 use std::fmt;
 
+pub(crate) mod hmac;
+
 /// Default crypto provider.
 #[derive(Debug)]
 pub struct Ring;
