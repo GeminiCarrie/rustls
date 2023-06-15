@@ -10,6 +10,9 @@ pub mod ring;
 /// TLS message encryption/decryption intefaces.
 pub mod cipher;
 
+/// Hashing interfaces.
+pub(crate) mod hash;
+
 /// HMAC interfaces.
 pub(crate) mod hmac;
 
