@@ -3,6 +3,7 @@ use crate::error::{Error, PeerMisbehaved};
 use crate::msgs::enums::NamedGroup;
 use crate::rand::GetRandomFailed;
 use crate::server::ProducesTickets;
+use crate::suites::SupportedCipherSuite;
 
 use ring::aead;
 use ring::agreement::{agree_ephemeral, EphemeralPrivateKey, UnparsedPublicKey};
@@ -12,6 +13,10 @@ use std::fmt;
 
 pub(crate) mod hash;
 pub(crate) mod hmac;
+pub(crate) mod suites;
+#[cfg(feature = "tls12")]
+pub(crate) mod tls12;
+pub(crate) mod tls13;
 
 /// Default crypto provider.
 #[derive(Debug)]
@@ -38,6 +43,10 @@ impl CryptoProvider for Ring {
         SystemRandom::new()
             .fill(buf)
             .map_err(|_| GetRandomFailed)
+    }
+
+    fn default_cipher_suites() -> &'static [SupportedCipherSuite] {
+        suites::DEFAULT_CIPHER_SUITES
     }
 }
 
