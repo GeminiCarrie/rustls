@@ -441,11 +441,11 @@ pub mod server {
     mod tls13;
 
     pub use crate::crypto::ring::server::builder::WantsServerCert;
+    pub use crate::crypto::ring::server::handy::ResolvesServerCertUsingSni;
     pub use crate::crypto::ring::verify::{
         AllowAnyAnonymousOrAuthenticatedClient, AllowAnyAuthenticatedClient,
     };
     pub use crate::verify::NoClientAuth;
-    pub use handy::ResolvesServerCertUsingSni;
     pub use handy::{NoServerSessionStorage, ServerSessionMemoryCache};
     pub use server_conn::StoresServerSessions;
     pub use server_conn::{

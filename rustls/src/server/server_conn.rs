@@ -116,7 +116,7 @@ pub struct ClientHello<'a> {
 
 impl<'a> ClientHello<'a> {
     /// Creates a new ClientHello
-    pub(super) fn new(
+    pub(crate) fn new(
         server_name: &'a Option<DnsName>,
         signature_schemes: &'a [SignatureScheme],
         alpn: Option<&'a Vec<ProtocolName>>,
