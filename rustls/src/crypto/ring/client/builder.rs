@@ -8,7 +8,7 @@ use crate::key_log::NoKeyLog;
 use crate::suites::SupportedCipherSuite;
 
 use crate::verify;
-use crate::{anchors, key, versions};
+use crate::{key, versions};
 
 use crate::client::Resumption;
 
@@ -20,7 +20,7 @@ impl<C: CryptoProvider> ConfigBuilder<ClientConfig<C>, WantsVerifier<C>> {
     /// Choose how to verify server certificates.
     pub fn with_root_certificates(
         self,
-        root_store: anchors::RootCertStore,
+        root_store: ring::anchors::RootCertStore,
     ) -> ConfigBuilder<ClientConfig<C>, WantsTransparencyPolicyOrClientCert<C>> {
         ConfigBuilder {
             state: WantsTransparencyPolicyOrClientCert {
@@ -63,7 +63,7 @@ pub struct WantsTransparencyPolicyOrClientCert<C: CryptoProvider> {
     cipher_suites: Vec<SupportedCipherSuite>,
     kx_groups: Vec<&'static <C::KeyExchange as KeyExchange>::SupportedGroup>,
     versions: versions::EnabledVersions,
-    root_store: anchors::RootCertStore,
+    root_store: ring::anchors::RootCertStore,
 }
 
 impl<C: CryptoProvider> ConfigBuilder<ClientConfig<C>, WantsTransparencyPolicyOrClientCert<C>> {
