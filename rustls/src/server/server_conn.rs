@@ -198,13 +198,13 @@ impl<'a> ClientHello<'a> {
 /// * [`ServerConfig::send_tls13_tickets`]: 4 tickets are sent.
 pub struct ServerConfig<C: CryptoProvider> {
     /// List of ciphersuites, in preference order.
-    pub(super) cipher_suites: Vec<SupportedCipherSuite>,
+    pub(crate) cipher_suites: Vec<SupportedCipherSuite>,
 
     /// List of supported key exchange groups.
     ///
     /// The first is the highest priority: they will be
     /// offered to the client in this order.
-    pub(super) kx_groups: Vec<&'static <C::KeyExchange as KeyExchange>::SupportedGroup>,
+    pub(crate) kx_groups: Vec<&'static <C::KeyExchange as KeyExchange>::SupportedGroup>,
 
     /// Ignore the client's ciphersuite order. Instead,
     /// choose the top ciphersuite in the server list
@@ -235,10 +235,10 @@ pub struct ServerConfig<C: CryptoProvider> {
 
     /// Supported protocol versions, in no particular order.
     /// The default is all supported versions.
-    pub(super) versions: crate::versions::EnabledVersions,
+    pub(crate) versions: crate::versions::EnabledVersions,
 
     /// How to verify client certificates.
-    pub(super) verifier: Arc<dyn verify::ClientCertVerifier>,
+    pub(crate) verifier: Arc<dyn verify::ClientCertVerifier>,
 
     /// How to output key material for debugging.  The default
     /// does nothing.

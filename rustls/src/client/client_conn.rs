@@ -123,14 +123,14 @@ pub trait ResolvesClientCert: Send + Sync {
 /// * [`ClientConfig::key_log`]: key material is not logged.
 pub struct ClientConfig<C: CryptoProvider> {
     /// List of ciphersuites, in preference order.
-    pub(super) cipher_suites: Vec<SupportedCipherSuite>,
+    pub(crate) cipher_suites: Vec<SupportedCipherSuite>,
 
     /// List of supported key exchange algorithms, in preference order -- the
     /// first element is the highest priority.
     ///
     /// The first element in this list is the _default key share algorithm_,
     /// and in TLS1.3 a key share for it is sent in the client hello.
-    pub(super) kx_groups: Vec<&'static <C::KeyExchange as KeyExchange>::SupportedGroup>,
+    pub(crate) kx_groups: Vec<&'static <C::KeyExchange as KeyExchange>::SupportedGroup>,
 
     /// Which ALPN protocols we include in our client hello.
     /// If empty, no ALPN extension is sent.
@@ -153,7 +153,7 @@ pub struct ClientConfig<C: CryptoProvider> {
 
     /// Supported versions, in no particular order.  The default
     /// is all supported versions.
-    pub(super) versions: versions::EnabledVersions,
+    pub(crate) versions: versions::EnabledVersions,
 
     /// Whether to send the Server Name Indication (SNI) extension
     /// during the client handshake.
@@ -162,7 +162,7 @@ pub struct ClientConfig<C: CryptoProvider> {
     pub enable_sni: bool,
 
     /// How to verify the server certificate chain.
-    pub(super) verifier: Arc<dyn verify::ServerCertVerifier>,
+    pub(crate) verifier: Arc<dyn verify::ServerCertVerifier>,
 
     /// How to output key material for debugging.  The default
     /// does nothing.

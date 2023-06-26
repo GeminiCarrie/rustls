@@ -158,7 +158,7 @@ impl client::ClientSessionStore for ClientSessionMemoryCache {
     }
 }
 
-pub(super) struct FailResolveClientCert {}
+pub(crate) struct FailResolveClientCert {}
 
 impl client::ResolvesClientCert for FailResolveClientCert {
     fn resolve(
@@ -174,10 +174,10 @@ impl client::ResolvesClientCert for FailResolveClientCert {
     }
 }
 
-pub(super) struct AlwaysResolvesClientCert(Arc<sign::CertifiedKey>);
+pub(crate) struct AlwaysResolvesClientCert(Arc<sign::CertifiedKey>);
 
 impl AlwaysResolvesClientCert {
-    pub(super) fn new(
+    pub(crate) fn new(
         chain: Vec<key::Certificate>,
         priv_key: &key::PrivateKey,
     ) -> Result<Self, Error> {

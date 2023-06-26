@@ -10,7 +10,7 @@ use crate::suites::SupportedCipherSuite;
 use crate::verify;
 use crate::{anchors, key, versions};
 
-use super::client_conn::Resumption;
+use crate::client::Resumption;
 
 use std::marker::PhantomData;
 use std::sync::Arc;
