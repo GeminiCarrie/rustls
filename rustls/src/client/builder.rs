@@ -1,11 +1,13 @@
 use crate::builder::{ConfigBuilder, WantsVerifier};
 use crate::client::handy;
 use crate::client::{ClientConfig, ResolvesClientCert};
+use crate::crypto::ring;
 use crate::crypto::{CryptoProvider, KeyExchange};
 use crate::error::Error;
 use crate::key_log::NoKeyLog;
 use crate::suites::SupportedCipherSuite;
-use crate::verify::{self, CertificateTransparencyPolicy};
+
+use crate::verify;
 use crate::{anchors, key, versions};
 
 use super::client_conn::Resumption;
@@ -77,7 +79,7 @@ impl<C: CryptoProvider> ConfigBuilder<ClientConfig<C>, WantsTransparencyPolicyOr
         logs: &'static [&'static sct::Log],
         validation_deadline: SystemTime,
     ) -> ConfigBuilder<ClientConfig<C>, WantsClientCert<C>> {
-        self.with_logs(Some(CertificateTransparencyPolicy::new(
+        self.with_logs(Some(ring::verify::CertificateTransparencyPolicy::new(
             logs,
             validation_deadline,
         )))
@@ -116,14 +118,14 @@ impl<C: CryptoProvider> ConfigBuilder<ClientConfig<C>, WantsTransparencyPolicyOr
 
     fn with_logs(
         self,
-        ct_policy: Option<CertificateTransparencyPolicy>,
+        ct_policy: Option<ring::verify::CertificateTransparencyPolicy>,
     ) -> ConfigBuilder<ClientConfig<C>, WantsClientCert<C>> {
         ConfigBuilder {
             state: WantsClientCert {
                 cipher_suites: self.state.cipher_suites,
                 kx_groups: self.state.kx_groups,
                 versions: self.state.versions,
-                verifier: Arc::new(verify::WebPkiVerifier::new(
+                verifier: Arc::new(ring::verify::WebPkiVerifier::new(
                     self.state.root_store,
                     ct_policy,
                 )),
