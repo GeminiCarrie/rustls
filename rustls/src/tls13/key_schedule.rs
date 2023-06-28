@@ -751,7 +751,11 @@ where
     hkdf_expand_inner(expander, label, context, N, |e, info| e.expand(info))
 }
 
-fn hkdf_expand_one(expander: &hkdf::Expander, label: &[u8], context: &[u8]) -> hkdf::OkmOneBlock {
+pub(crate) fn hkdf_expand_one(
+    expander: &hkdf::Expander,
+    label: &[u8],
+    context: &[u8],
+) -> hkdf::OkmOneBlock {
     hkdf_expand_inner(
         expander,
         label,
@@ -761,7 +765,7 @@ fn hkdf_expand_one(expander: &hkdf::Expander, label: &[u8], context: &[u8]) -> h
     )
 }
 
-fn hkdf_expand_aead_key(
+pub(crate) fn hkdf_expand_aead_key(
     expander: &hkdf::Expander,
     key_len: usize,
     label: &[u8],
